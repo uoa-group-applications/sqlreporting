@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+    <modelVersion>4.0.0</modelVersion>
+    <!-- ====================================================================== -->
+    <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
+    <!-- ====================================================================== -->
+    <parent>
+        <groupId>nz.ac.auckland.aem</groupId>
+        <artifactId>sqlreporting</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <!-- ====================================================================== -->
+    <!-- P R O J E C T D E S C R I P T I O N -->
+    <!-- ====================================================================== -->
+
+    <artifactId>sqlreporting-bundle</artifactId>
+    <packaging>bundle</packaging>
+    <name>SQL Reporting - Bundle</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.cqblueprints</groupId>
+                <artifactId>cqdependencies</artifactId>
+                <version>5.6.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+	            <exclusions>
+		            <exclusion>
+			            <groupId>com.adobe.xmp</groupId>
+			            <artifactId>xmpcore</artifactId>
+		            </exclusion>
+	            </exclusions>
+            </dependency>
+	        <dependency>
+		        <groupId>com.adobe.xmp</groupId>
+		        <artifactId>xmpcore</artifactId>
+		        <version>5.1.2</version>
+	        </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-scr-descriptor</id>
+                        <goals>
+                            <goal>scr</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>nz.ac.auckland.aem.sqlreporting</Bundle-SymbolicName>
+                        <Export-Package>
+                            nz.ac.auckland.aem.sqlreporting.*
+                        </Export-Package>
+
+                        <Import-Package>
+                            nz.ac.auckland.aem.contentgraph.dbsynch*;resolution:=optional,
+                            com.mchange.v2.*;resolution:=optional,
+                            org.hibernate.*;resolution:=optional,
+                            org.jboss.*;resolution:=optional,
+                            *
+                        </Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>maven-sling-plugin</artifactId>
+                <configuration>
+                    <slingUrl>http://${crx.host}:${crx.port}/apps/sqlreporting/install</slingUrl>
+                    <usePut>true</usePut>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>nz.ac.auckland.aem</groupId>
+            <artifactId>dbsynchronizer</artifactId>
+            <version>[1,2)</version>
+        </dependency>
+
+        <!-- CQ dependencies -->
+        <dependency>
+            <groupId>com.day.cqse</groupId>
+            <artifactId>cqse-httpservice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cocoon</groupId>
+            <artifactId>cocoon-xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.rewriter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.event</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.jcr</groupId>
+            <artifactId>jcr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-foundation</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.jcr.resource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-tagging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <scope>compile</scope>
+        </dependency>
+	    <dependency>
+	    	<groupId>org.apache.sling</groupId>
+	    	<artifactId>org.apache.sling.auth.core</artifactId>
+	    	<scope>provided</scope>
+	    </dependency>
+        <dependency>
+            <groupId>com.adobe.granite</groupId>
+            <artifactId>com.adobe.granite.workflow.api</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>
+
